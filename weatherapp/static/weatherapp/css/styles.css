@@ -1,0 +1,21 @@
+.form-container{
+    margin: 5rem 0;
+}
+
+main{
+    margin-bottom: 10rem;
+}
+
+.month-paragraph{
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.day-paragraph{
+    font-size: 1.5rem;
+}
+
+.bi:hover{
+    color: rgba(40, 146, 146, 0.651); 
+}

@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplicacion del tiempo</title>
+    <link rel="shortcut icon" href="{% static 'weatherapp/images/cloudy.png' %}" type="image/x-icon">
+    <link
+      rel="stylesheet"
+      href="{% static 'weatherapp/css/bootstrap.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'weatherapp/css/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+  </head>
+  <body>
+
+    <div class="alert alert-dismissible alert-secondary container text-center mt-5">
+      <strong>Ingresa el nombre de la ciudad</strong> para ver los datos meteorológicos:
+    </div>
+
+    <div class="container">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-container form-group d-flex gap-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Escribe el nombre de la ciudad..."
+            name="city"
+          />
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+      </form>
+    </div>
+
+    {% if location %}
+    <main class="d-flex align-items-center justify-content-evenly">
+      <section class="d-flex flex-column card p-5">
+        <div class="d-flex mb-3">
+          <h1 class="bi bi-geo-alt"></h1>
+          <h1>{{location}}, {{country}}</h1>
+        </div>
+        <p class="month-paragraph">{{today | date:"d F" | upper}}</p>
+        <p class="day-paragraph">{{today | date:"l" | capfirst}}</p>
+      </section>
+      <section class="d-flex flex-column align-items-center card p-5">
+        <img
+          src="http://openweathermap.org/img/wn/{{image}}.png"
+          alt="{{description}}"
+          width="100"
+        />
+        <h1>{{description | capfirst}}</h1>
+      </section>
+      <section class="d-flex flex-column card p-5">
+        <div class="d-flex mb-2">
+          {% if temp >= 30 %}
+            <h1 class="bi bi-thermometer-sun text-danger"></h1>
+          {% elif temp < 30 and temp >= 20 %}
+            <h1 class="bi bi-thermometer-half text-warning"></h1>
+          {% elif temp < 20 and temp >= 10 %}
+            <h1 class="bi bi-thermometer-low text-success"></h1>
+          {% elif temp < 10 and temp >= 0 %}
+            <h1 class="bi bi-thermometer text-info"></h1>
+          {% else %}
+            <h1 class="bi bi-thermometer-snow text-primary"></h1>
+          {% endif %}
+          <h1>{{temp}} ºC</h1>
+        </div>
+        <p>Presion: {{pressure}} hPa</p>
+        <p>Humedad: {{humidity}} %</p>
+        <p>Viento: {{wind}} metros/segundos</p>
+      </section>
+    </main>
+    {% else %}
+      <h2 class="text-center mb-5">La ciudad no existe</h2>
+    {% endif %}
+
+    <div class="alert alert-dismissible alert-secondary container text-center">
+      <strong>Muchas gracias por tu visita!</strong> Me puedes encontrar en los siguientes sitios:
+      <div class="d-flex justify-content-center gap-3">
+        <a href="https://www.linkedin.com/in/enzo-martin-zotti/" target="_blank" class="alert-link"><h3 class="bi bi-linkedin"></h3></a>
+        <a href="https://github.com/tinchoz8426" target="_blank" class="alert-link"><h3 class="bi bi-github"></h3></a>
+        <a href="https://enzomartinzotti.com.ar/" target="_blank" class="alert-link"><h3 class="bi bi-globe"></h3></a>
+      </div> 
+    </div>
+
+  </body>
+</html>
